@@ -1,21 +1,21 @@
 #!/usr/bin/env python
-# Copyright (c) 2012 The Chromium Authors. All rights reserved.
-# Copyright (c) 2018 Zimmi
-# Use of this source code is governed by a BSD-style (MIT) license that can be
-# found in the LICENSE file.
+"""
+Copyright (c) 2012 The Chromium Authors. All rights reserved.
+Copyright (c) 2018 Zimmi
+Use of this source code is governed by a BSD-style (MIT) license that can be
+found in the LICENSE file.
+"""
 import struct
 import os
 import sys
-import shutil
 import json
 from subprocess import Popen, PIPE
-from io import StringIO
 import logging
 
-logging.basicConfig(filename='/tmp/guld-ledger-native-messenger.log',level=logging.INFO)
+logging.basicConfig(filename='/tmp/guld-ledger-native-messenger.log', level=logging.INFO)
 
 EXTENSION_NAME = "com.guld.ledger"
-EXTENSION_IDS = "fjnccnnmidoffkjhcnnahfeclbgoaooo"
+EXTENSION_ID = "fjnccnnmidoffkjhcnnahfeclbgoaooo"
 
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
@@ -25,6 +25,9 @@ if sys.platform == "win32":
     msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
 
 def send_message(message):
+    """
+    Send a message to the browser.
+    """
     response = json.dumps(message).encode('utf-8')
     sys.stdout.write(struct.pack('I', len(response)))
     sys.stdout.write(response)
@@ -51,7 +54,7 @@ def run():
     text_length_bytes = sys.stdin.read(4)
 
     if not text_length_bytes:
-        send_message({ "action": "error", "msg": "no data" })
+        send_message({"error", "no data"})
         sys.exit(1)
     length = struct.unpack('I', text_length_bytes)[0]
     data = sys.stdin.read(length)
@@ -67,6 +70,6 @@ if __name__ == '__main__':
     if len(sys.argv) == 2:
         args = json.loads(sys.argv[1])
         handleCmd(**args)
-    elif sys.argv[1].startswith('chrome-extension://'):
+    elif sys.argv[1].startswith('chrome-extension://%s' % EXTENSION_ID):
         run()
 
