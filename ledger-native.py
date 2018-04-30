@@ -10,12 +10,6 @@ import os
 import sys
 import json
 from subprocess import Popen, PIPE
-import logging
-
-logging.basicConfig(filename='/tmp/guld-ledger-native-messenger.log', level=logging.INFO)
-
-EXTENSION_NAME = "com.guld.ledger"
-EXTENSION_ID = "fjnccnnmidoffkjhcnnahfeclbgoaooo"
 
 # On Windows, the default I/O mode is O_TEXT. Set this to O_BINARY
 # to avoid unwanted modifications of the input/output streams.
@@ -67,9 +61,9 @@ def run():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
+    if sys.argv[1].startswith('chrome-extension://fjnccnnmidoffkjhcnnahfeclbgoaooo'):
+        run()
+    elif sys.argv[1].startswith('{'):
         args = json.loads(sys.argv[1])
         handleCmd(**args)
-    elif sys.argv[1].startswith('chrome-extension://%s' % EXTENSION_ID):
-        run()
 
