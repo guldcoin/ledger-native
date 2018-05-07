@@ -61,7 +61,7 @@ def run():
 
 
 if __name__ == '__main__':
-    if sys.argv[1].startswith('chrome-extension://fjnccnnmidoffkjhcnnahfeclbgoaooo'):
+    if sys.argv[1].startswith('chrome-extension://'):
         run()
     elif sys.argv[1].startswith('{'):
         args = json.loads(sys.argv[1])

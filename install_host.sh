@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright 2013 The Chromium Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
@@ -36,6 +36,7 @@ cp "$DIR/$HOST_NAME.json" "$CHROMIUM_TARGET_DIR"
 
 # Update host path in the manifest.
 HOST_PATH="$DIR/ledger-native.py"
+echo $HOST_PATH
 ESCAPED_HOST_PATH=${HOST_PATH////\\/}
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$CHROME_TARGET_DIR/$HOST_NAME.json"
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$CHROMIUM_TARGET_DIR/$HOST_NAME.json"
