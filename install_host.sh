@@ -34,9 +34,13 @@ mkdir -p "$CHROMIUM_TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$CHROME_TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$CHROMIUM_TARGET_DIR"
 
+ledgerx=$( which ledger )
+escledgerx=${ledgerx////\\/}
+
 # Update host path in the manifest.
 HOST_PATH="$DIR/ledger-native.py"
 echo $HOST_PATH
+sed -i -e "s/ledger/$escledgerx/" "$HOST_PATH"
 ESCAPED_HOST_PATH=${HOST_PATH////\\/}
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$CHROME_TARGET_DIR/$HOST_NAME.json"
 sed -i -e "s/HOST_PATH/$ESCAPED_HOST_PATH/" "$CHROMIUM_TARGET_DIR/$HOST_NAME.json"
